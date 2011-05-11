@@ -16,7 +16,7 @@ Tested on ubuntu. Should work on other system with upstart.
 
 = USAGE:
 
-Include the node-js recipe to download, compile and install node along with npm.
+Include the node recipe to download, compile and install node along with npm.
 
 == defines:
 
@@ -30,7 +30,7 @@ Include the node-js recipe to download, compile and install node along with npm.
         action :start # Will start a node server. In [stop,start,restart]
     end
 
-+node_npm+ provider to manage nodejs modules. The following example will install the connect module for nodejs.
++node_npm+ provider to manage nodejs modules. The following example will install the connect module for node.
 
     node_npm "connect" do
         action :install

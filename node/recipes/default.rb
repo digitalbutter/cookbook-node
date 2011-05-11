@@ -19,7 +19,7 @@
 
 include_recipe "git"
 
-["g++", "curl", "apache2-utils", "pkg-config"].each do |pkg|
+[ "curl"].each do |pkg|
   package pkg do
     action :install
   end
