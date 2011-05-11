@@ -14,7 +14,7 @@ action :start do
 
   # Create a node service for this program with upstart
   template "/etc/init/node-#{new_resource.name}.conf" do
-    cookbook "node"
+    cookbook "node-js"
     source "upstart.erb"
     variables(
         :name => new_resource.name,
