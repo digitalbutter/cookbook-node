@@ -20,9 +20,9 @@ Include the node-js recipe to download, compile and install node along with npm.
 
 == defines:
 
-+node+ provider to start/stop server. The following example will start a provided script with node. Logs can be found in /var/log/node-my_node_server.log.
++node_server+ provider to start/stop server. The following example will start a provided script with node. Logs can be found in /var/log/node-my_node_server.log.
 
-    node_js "my_node_server" do
+    node_server "my_node_server" do
         script "/path/to/your/node/script.js" # mandatory
         user "my_user" # default : root
         dependency ["required","node","modules"] # default []. Will be installed with npm before starting the server
@@ -30,9 +30,9 @@ Include the node-js recipe to download, compile and install node along with npm.
         action :start # Will start a node server. In [stop,start,restart]
     end
 
-+node_js_npm+ provider to manage nodejs modules. The following example will install the connect module for nodejs.
++node_npm+ provider to manage nodejs modules. The following example will install the connect module for nodejs.
 
-    node_js_npm "connect" do
+    node_npm "connect" do
         action :install
     end
 
