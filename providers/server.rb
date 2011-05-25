@@ -26,19 +26,36 @@ action :start do
   end
 
   # Start the server
-  execute "start node server" do
-    command "start node-#{new_resource.name}"
+  service "node-#{new_resource.name}" do
+    provider Chef::Provider::Service::Upstart
+    action :start
   end
 end
 
 action :stop do
-  execute "stop node server" do
-    command "stop node-#{new_resource.name}"
+  service "node-#{new_resource.name}" do
+    provider Chef::Provider::Service::Upstart
+    action :stop
   end
 end
 
 action :restart do
-  execute "restart node server" do
-    command "restart node-#{new_resource.name}"
+  service "node-#{new_resource.name}" do
+    provider Chef::Provider::Service::Upstart
+    action :restart
+  end
+end
+
+action :enable do
+  service "node-#{new_resource.name}" do
+    provider Chef::Provider::Service::Upstart
+    action :enable
+  end
+end
+
+action :disable do
+  service "node-#{new_resource.name}" do
+    provider Chef::Provider::Service::Upstart
+    action :disable
   end
 end
