@@ -1,7 +1,7 @@
 action :start do
 
   # Install dependency with npm
-  if (not new_resource.dependency.empty?):
+  if (not new_resource.dependency.empty?)
     new_resource.dependency.each do |dep|
       execute "install dependency module #{dep}" do
         command "sudo npm install #{dep}"
@@ -20,24 +20,42 @@ action :start do
         :name => new_resource.name,
         :script => new_resource.script,
         :user => new_resource.user,
-        :user_home => user_home
+        :user_home => user_home,
+        :args => new_resource.args
     )
   end
 
   # Start the server
-  execute "start node server" do
-    command "start node-#{new_resource.name}"
+  service "node-#{new_resource.name}" do
+    provider Chef::Provider::Service::Upstart
+    action :start
   end
 end
 
 action :stop do
-  execute "stop node server" do
-    command "stop node-#{new_resource.name}"
+  service "node-#{new_resource.name}" do
+    provider Chef::Provider::Service::Upstart
+    action :stop
   end
 end
 
 action :restart do
-  execute "restart node server" do
-    command "restart node-#{new_resource.name}"
+  service "node-#{new_resource.name}" do
+    provider Chef::Provider::Service::Upstart
+    action :restart
+  end
+end
+
+action :enable do
+  service "node-#{new_resource.name}" do
+    provider Chef::Provider::Service::Upstart
+    action :enable
+  end
+end
+
+action :disable do
+  service "node-#{new_resource.name}" do
+    provider Chef::Provider::Service::Upstart
+    action :disable
   end
 end

@@ -1,4 +1,4 @@
-actions :start,:stop,:restart
+actions :start,:stop,:restart,:enable,:disable
 
 attribute :name, :kind_of => String, :name_attribute => true
 attribute :dependency, :kind_of => Array, :default => []
