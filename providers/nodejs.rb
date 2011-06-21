@@ -4,7 +4,7 @@ action :start do
   if (not new_resource.dependency.empty?):
     new_resource.dependency.each do |dep|
       execute "install dependency module #{dep}" do
-        command "sudo npm install #{dep}"
+        command "sudo npm -g install #{dep}"
       end
     end
   end
