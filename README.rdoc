@@ -42,6 +42,9 @@ Author::
 * Emmanuel Prochasson (<emmanuel@tikibooth.com>)
 * Ed Bosher (<edbo@tikibooth.com>)
 
+Contributor:
+* Jon Wood (<jon@blankpad.net>)
+
 Copyright:: 2011, Tikibooth Limited
 
 Licensed under the Apache License, Version 2.0 (the "License");
