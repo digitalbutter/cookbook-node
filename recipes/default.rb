@@ -38,7 +38,12 @@ bash "compile_nodejs_source" do
     git clone https://github.com/joyent/node.git
     cd node
     git checkout #{node[:node][:version]}
-    ./configure && make && make install
+    previousnodeversion="$(cat /usr/local/share/node_version)"
+    currentnodeversion="$(git show -s --format=%H)"
+    if [ "$currentnodeversion" != "$previousnodeversion" ]; then
+      ./configure && make && make install
+      git show -s --format=%H > /usr/local/share/node_version
+    fi
   EOH
 end
 
