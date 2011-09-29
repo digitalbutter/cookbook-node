@@ -35,10 +35,22 @@ end
 bash "compile_nodejs_source" do
   cwd "/tmp/"
   code <<-EOH
+    # Check the remote hash first
+    previousnodeversion="$(cat /usr/local/share/node_version)"
+    remotetagcommit="$(git ls-remote -h -t https://github.com/joyent/node.git #{node[:node][:version]}^{} | awk '{print $1}')"
+    remotecommit="$(git ls-remote -h -t https://github.com/joyent/node.git #{node[:node][:version]} | awk '{print $1}')"
+    if [ \\( -n "$remotetagcommit" -a "$remotetagcommit" = "$previousnodeversion" \\) -o \\( -n "$remotecommit" -a "$remotecommit" = "$previousnodeversion" \\) ]; then
+      exit 0
+    fi
     git clone https://github.com/joyent/node.git
     cd node
     git checkout #{node[:node][:version]}
+    currentnodeversion="$(git show -s --format=%H)"
+    if [ "$currentnodeversion" = "$previousnodeversion" ]; then
+      exit 0
+    fi
     ./configure && make && make install
+    git show -s --format=%H > /usr/local/share/node_version
   EOH
 end
 
