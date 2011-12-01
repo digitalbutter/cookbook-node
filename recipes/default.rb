@@ -19,10 +19,8 @@
 
 include_recipe "git"
 
-[ "curl"].each do |pkg|
-  package pkg do
-    action :install
-  end
+%w<curl>.each do |pkg|
+  package pkg
 end
 
 case node[:platform]
@@ -32,34 +30,30 @@ case node[:platform]
     package "libssl-dev"
 end
 
+git "/opt/node-src" do
+  repo node[:node][:repo_url]
+  revision node[:node][:revision]
+  notifies :run, "bash[compile_nodejs_source]", :immediately
+end
+
 bash "compile_nodejs_source" do
-  cwd "/tmp/"
+  cwd "/opt/node-src/"
   code <<-EOH
-    # Check the remote hash first
-    previousnodeversion="$(cat /usr/local/share/node_version)"
-    remotetagcommit="$(git ls-remote -h -t https://github.com/joyent/node.git #{node[:node][:version]}^{} | awk '{print $1}')"
-    remotecommit="$(git ls-remote -h -t https://github.com/joyent/node.git #{node[:node][:version]} | awk '{print $1}')"
-    if [ \\( -n "$remotetagcommit" -a "$remotetagcommit" = "$previousnodeversion" \\) -o \\( -n "$remotecommit" -a "$remotecommit" = "$previousnodeversion" \\) ]; then
-      exit 0
-    fi
-    git clone https://github.com/joyent/node.git
-    cd node
-    git checkout #{node[:node][:version]}
-    currentnodeversion="$(git show -s --format=%H)"
-    if [ "$currentnodeversion" = "$previousnodeversion" ]; then
-      exit 0
-    fi
-    ./configure && make && make install
-    git show -s --format=%H > /usr/local/share/node_version
+    ./configure && make -j#{node[:cpu][:total]} && make install && git rev-parse HEAD > /usr/local/share/node-version
   EOH
+  not_if '[ -f /usr/local/share/node-version ] && [ "$(git rev-parse HEAD)" = "$(cat /usr/local/share/node-version)" ]', :cwd => "/opt/node-src"
 end
 
 
 bash "install_npm" do
   user "root"
-    cwd "/tmp/"
-    code <<-EOH
-    curl http://npmjs.org/install.sh | clean=no sh
-    EOH
+  cwd "/tmp/"
+  code <<-EOH
+  curl http://npmjs.org/install.sh | clean=no sh
+  EOH
+  creates "/usr/local/bin/npm"
 end
 
+user node[:node][:user] do
+  system true
+end
