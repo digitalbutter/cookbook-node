@@ -5,6 +5,7 @@ description      "Installs/Configures node, npm and node server providers"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
 version          "0.0.6"
 depends          "git"
+depends          "runit"
 supports         "ubuntu"
 recipe           "node-js", "Install node and npm"
 
