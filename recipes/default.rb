@@ -52,6 +52,18 @@ bash "compile_nodejs_source" do
     ./configure && make && make install
     git show -s --format=%H > /usr/local/share/node_version
   EOH
+
+  not_if do
+    if File.exists?("/usr/local/share/node_version")
+      if node[:node][:version]
+        node[:node][:version] == File.read("/usr/local/share/node_version").strip
+      else
+        false
+      end
+    else
+      false
+    end
+  end
 end
 
 
@@ -61,5 +73,6 @@ bash "install_npm" do
     code <<-EOH
     curl -k https://npmjs.org/install.sh | clean=no sh
     EOH
+  creates "/usr/local/bin/npm"
 end
 
