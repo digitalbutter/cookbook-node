@@ -1,0 +1,6 @@
+#! /bin/sh
+exec 2>&1
+<% if @options.has_key? :dir %>
+cd <%= @options[:dir] %>
+<% end %>
+exec chpst -u <%= @options[:user] %> -U <%= @options[:user] %> /usr/local/bin/node <%= @options[:script] %> <%= @options[:args] %>

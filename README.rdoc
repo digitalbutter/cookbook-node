@@ -12,7 +12,7 @@ Tested on ubuntu. Should work on other system with upstart.
 
 = ATTRIBUTES:
 
-* node/version : indicates which version to install. Default is the latest ('HEAD'). Since node evolves very quickly and is not always that stable, you might want to set it to a stable version (for example 'v0.4.3')
+* node/revision : indicates which revision to install. Default is the latest ('HEAD'). Since node evolves very quickly and is not always that stable, you might want to set it to a stable version (for example 'v0.4.3')
 
 = USAGE:
 
@@ -24,10 +24,11 @@ Include the node recipe to download, compile and install node along with npm.
 
     node_server "my_node_server" do
         script "/path/to/your/node/script.js" # mandatory
-        user "my_user" # default : root
+        user "my_user" # default : nodejs
         dependency ["required","node","modules"] # default []. Will be installed with npm before starting the server
         args "arguments for your script" # default ""
-        action :start # Will start a node server. In [stop,start,restart]
+        init_style :runit # default - by platform. Spported values: :upstart, :init, :runit
+        action :start # Will start a node server. In [stop,start,restart], default :start
     end
 
 +node_npm+ provider to manage nodejs modules. The following example will install the connect module for node.
