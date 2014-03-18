@@ -51,6 +51,7 @@ action :start do
     }
     runit_service "node-#{new_resource.name}" do
       template_name "nodejs"
+      log_template_name "nodejs"
       cookbook "node"
       options template_options
     end
