@@ -57,3 +57,5 @@ end
 user node[:node][:user] do
   system true
 end
+
+include_recipe 'node::packages'

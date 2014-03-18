@@ -14,9 +14,21 @@ Tested on ubuntu. Should work on other system with upstart.
 
 * node/revision : indicates which revision to install. Default is the latest ('HEAD'). Since node evolves very quickly and is not always that stable, you might want to set it to a stable version (for example 'v0.4.3')
 
+* `node[:node][:packages]` - An array of npm packages to be installed globally
+
 = USAGE:
 
 Include the node recipe to download, compile and install node along with npm.
+
+Optionally, you can add NPM packages by creating a packages array:
+
+```
+default_attributes({
+  node: {
+    packages: ['coffee-script', 'lineman']
+  }
+})
+```
 
 == defines:
 
