@@ -1,3 +1,4 @@
+name             "node"
 maintainer       "Tikibooth Limited"
 maintainer_email "devops@butter.com.hk"
 license          "Apache 2.0"
