@@ -1,3 +1,7 @@
+= DEPRECATED:
+
+This repo is no longer the recommended cookbook to use for installing and maintaining node and npm. The 'nodejs' cookbook here would be the one to use: https://github.com/redguide/nodejs/
+
 = DESCRIPTION:
 
 This cookbook will deploy node and npm (node package manager) to your system. It also defines providers to install/uninstall node module and start/stop/restart node servers.
