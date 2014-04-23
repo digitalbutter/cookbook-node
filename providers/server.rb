@@ -30,7 +30,8 @@ action :start do
           :script => new_resource.script,
           :user => user,
           :user_home => user_home,
-          :args => new_resource.args
+          :args => new_resource.args,
+          :path => new_resource.path
       )
     end
 

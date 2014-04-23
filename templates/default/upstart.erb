@@ -7,6 +7,7 @@ stop on shutdown
 
 script
     export HOME=<%= @user_home %>
+    <%= @path.nil? ? '' : "cd #{@path}" %>
     exec sudo -u <%= @user %> /usr/local/bin/node <%= @script %>  <%= @args %> >> /var/log/node-<%= @name %>.log 2>&1
 end script
 
